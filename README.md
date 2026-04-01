@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>找碴小遊戲</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f9; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
-        #canvas-container { position: relative; border: 2px solid #333; margin-top: 15px; border-radius: 5px; overflow: hidden; background: #eee; line-height: 0; }
+        body { font-family: sans-serif; text-align: center; padding: 40px 10px; background: #f4f4f9; margin: 0; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        input:focus { border-color: #ff4757; }
+        #canvas-container { position: relative; border: 2px solid #333; margin-top: 15px; border-radius: 10px; overflow: hidden; background: #eee; line-height: 0; }
         canvas { width: 100%; height: auto; touch-action: none; cursor: crosshair; }
-        button { background: #ff4757; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; margin-top: 20px; font-size: 18px; font-weight: bold; }
+        button { background: #ff4757; color: white; border: none; padding: 15px 40px; border-radius: 30px; cursor: pointer; margin-top: 20px; font-size: 18px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #e84118; transform: scale(1.05); }
         p { color: #666; font-size: 14px; }
+    </style>
     </style>
 </head>
 <body>
