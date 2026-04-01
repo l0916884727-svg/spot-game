@@ -87,7 +87,7 @@ function submitGame() {
         if(!name || !phone) { alert("請完整填寫資料唷！"); return; }
         
         // 取得圖片數據 (Base64 格式)
-        const finalImage = canvas.toDataURL("image/png");
+        const finalImage = canvas.toDataURL("image/jpeg, 0.5");
         
         // 這是你剛剛產生的 GAS 網址
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwUFAeQJo8i8eBr8Jgq1d-UypxOZhqX9NWcXKL1iuQZINWpGB-6Tb1KJLRCuvZEUKd3/exec';
