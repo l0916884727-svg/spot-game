@@ -36,7 +36,7 @@
     const img = new Image();
 
     // 預設一張範例圖，你可以之後換成自己的 game.jpg
-    img.src = 'https://picsum.photos/id/237/500/300'; 
+    img.src = 'game.jpg';
     
     img.onload = () => {
         canvas.width = img.width;
