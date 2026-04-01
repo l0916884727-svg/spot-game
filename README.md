@@ -28,7 +28,7 @@
     <h2>💃 找找哈特有幾隻 🕺</h2>
     
     <div id="login-section">
-        <p class="desc">請填寫基本資料開始血量制挑戰，<br>找齊所有隱藏哈特貓（ 12 隻）即可獲得抽獎資格！</p>
+        <p class="desc">請填寫基本資料開始血量計時制挑戰，<br>找齊所有隱藏哈特貓（ 12 隻）即可獲得抽獎資格！</p>
         <input type="text" id="username" placeholder="您的勁舞團(快樂玩)帳號" required>
         <input type="text" id="nickname" placeholder="您的勁舞團暱稱" required>
         <button onclick="startGame()">開始挑戰</button>
