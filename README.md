@@ -26,11 +26,11 @@
         <p style="margin-top: 15px; font-weight: bold;">🔍 請問圖中總共有幾隻哈特貓？</p>
         <select id="catCount" style="width: 100%; padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ddd;">
             <option value="">-- 請選擇數量 --</option>
-            <option value="19">10 隻</option>
-            <option value="20">12 隻</option>
-            <option value="21">16 隻</option>
-            <option value="22">18 隻</option>
-            <option value="23">20 隻</option>
+            <option value="10">10 隻</option>
+            <option value="12">12 隻</option>
+            <option value="16">16 隻</option>
+            <option value="18">18 隻</option>
+            <option value="20">20 隻</option>
         </select>
     </div>
 
