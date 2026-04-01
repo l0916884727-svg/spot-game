@@ -75,7 +75,7 @@
     ];
     
     // 你的 GAS 應用程式網址
-    const scriptURL = '你的_GAS_網頁應用程式網址';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwUFAeQJo8i8eBr8Jgq1d-UypxOZhqX9NWcXKL1iuQZINWpGB-6Tb1KJLRCuvZEUKd3/exec';
     // 你的圖片網址
     const imgUrl = 'game.jpg'; // 請確保檔名正確
 
