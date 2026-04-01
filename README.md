@@ -20,13 +20,21 @@
     <p>請先填寫基本資料開始遊戲</p>
     <input type="text" id="username" placeholder="您的勁舞團(快樂玩)帳號" required>
     <input type="tel" id="phone" placeholder="您的勁舞團暱稱" required>
-    
-    <div id="canvas-container">
-        <canvas id="gameCanvas"></canvas>
+
+    <div style="margin-top: 15px;">
+        <img src="幽靈教室.jpg" style="width: 100%; border-radius: 10px; border: 2px solid #333;">
+        <p style="margin-top: 15px; font-weight: bold;">🔍 請問圖中總共有幾隻哈特貓？</p>
+        <select id="catCount" style="width: 100%; padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ddd;">
+            <option value="">-- 請選擇數量 --</option>
+            <option value="19">19 隻</option>
+            <option value="20">20 隻</option>
+            <option value="21">21 隻</option>
+            <option value="22">22 隻</option>
+            <option value="23">23 隻</option>
+        </select>
     </div>
-    <p>💡 用手指或滑鼠在圖中「圈出哈特貓咪」</p>
-    
-    <button onclick="submitGame()">提交結果</button>
+
+    <button onclick="submitGame()" style="margin-top: 20px;">提交結果</button>
 </div>
 
 <script>
