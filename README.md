@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,7 @@
     <div id="canvas-container">
         <canvas id="gameCanvas"></canvas>
     </div>
-    <p>💡 用手指或滑鼠在圖中「圈出不同處」</p>
+    <p>💡 用手指或滑鼠在圖中「圈出哈特貓咪」</p>
     
     <button onclick="submitGame()">提交結果</button>
 </div>
