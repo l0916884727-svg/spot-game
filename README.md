@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -39,7 +38,7 @@
     <div id="game-section">
         <div id="game-stats">
             <div>血量：<span id="health">❤️❤️❤️</span></div>
-            <div>已找到：<span id="foundCount">0</span> / <span id="totalTarget">10</span> 隻</div>
+            <div>已找到：<span id="foundCount">0</span> / <span id="totalTarget">12</span> 隻</div>
         </div>
         
         <div id="canvas-container">
@@ -60,18 +59,18 @@
     // 目標坐標區域 (相對於圖片的像素坐標，需要手動測量)
     // 格式: { x: X坐標, y: Y坐標, radius: 點擊有效的半徑(像素) }
     const targetAreas = [
-        { x: 120, y: 150, radius: 25 }, // 目標 1 (例如：左邊喇叭旁)
-        { x: 280, y: 180, radius: 25 }, // 目標 2
-        { x: 410, y: 160, radius: 25 }, // 目標 3
-        { x: 200, y: 220, radius: 25 }, // 目標 4
-        { x: 330, y: 250, radius: 25 }, // 目標 5
-        { x: 150, y: 280, radius: 25 }, // 目標 6
-        { x: 390, y: 300, radius: 25 }, // 目標 7
-        { x: 230, y: 320, radius: 25 }, // 目標 8
-        { x: 300, y: 340, radius: 25 }, // 目標 9
-        { x: 180, y: 360, radius: 25 }, // 目標 10
-        { x: 180, y: 360, radius: 25 }, // 目標 11
-        { x: 180, y: 360, radius: 25 }, // 目標 12
+        { x: 429, y: 283, radius: 25 }, // 目標 1 (例如：左邊喇叭旁)
+        { x: 300, y: 223, radius: 15 }, // 目標 2
+        { x: 259, y: 198, radius: 12 }, // 目標 3
+        { x: 182, y: 200, radius: 15 }, // 目標 4
+        { x: 48, y: 148, radius: 15 }, // 目標 5
+        { x: 176, y: 154, radius: 14 }, // 目標 6
+        { x: 166, y: 102, radius: 10 }, // 目標 7
+        { x: 248, y: 100, radius: 10 }, // 目標 8
+        { x: 355, y: 142, radius: 10 }, // 目標 9
+        { x: 383, y: 101, radius: 10 }, // 目標 10
+        { x: 425, y: 102, radius: 10 }, // 目標 11
+        { x: 442, y: 141, radius: 15 }, // 目標 12
         // 如果你有更多目標，請繼續添加...
     ];
     
