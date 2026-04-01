@@ -1,21 +1,4 @@
 
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>找碴小遊戲</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f9; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        #canvas-container { position: relative; border: 2px solid #333; margin-top: 10px; cursor: crosshair; }
-        canvas { width: 100%; display: block; }
-        button { background: #ff4757; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px; }
-    </style>
-</head>
-<body>
-
-<div class="container">
     <h2>🎯 找碴挑戰賽</h2>
     <input type="text" id="username" placeholder="您的快樂玩帳號" required>
     <input type="tel" id="phone" placeholder="您的勁舞團暱稱" required>
