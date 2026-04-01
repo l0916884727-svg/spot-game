@@ -18,7 +18,7 @@
 <div class="container">
     <h2>🎯 找碴挑戰賽</h2>
     <input type="text" id="username" placeholder="您的快樂玩帳號" required>
-    <input type="tel" id="phone" placeholder="您的進舞團暱稱" required>
+    <input type="tel" id="phone" placeholder="您的勁舞團暱稱" required>
     
     <p>請在下圖中圈出不合理的地方：</p>
     <div id="canvas-container">
