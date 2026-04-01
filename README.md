@@ -11,9 +11,8 @@
         #canvas-container { position: relative; margin-top: 15px; border-radius: 10px; overflow: hidden; background: #eee; line-height: 0; cursor: crosshair; }
         canvas { width: 100%; height: auto; touch-action: none; }
         
-        /* 血量和計數器樣式 */
-        #game-stats { display: none; justify-content: space-around; background: #eee; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-weight: bold; }
-        .heart { color: #ff4757; font-size: 20px; }
+        /* 血量、計時與計數器樣式 */
+        #game-stats { display: none; justify-content: space-around; background: #eee; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-weight: bold; font-size: 14px; }
         
         button { background: #ff4757; color: white; border: none; padding: 15px 40px; border-radius: 30px; cursor: pointer; margin-top: 20px; font-size: 18px; font-weight: bold; transition: 0.3s; }
         button:hover { background: #e84118; transform: scale(1.05); }
@@ -38,153 +37,134 @@
     <div id="game-section">
         <div id="game-stats">
             <div>血量：<span id="health">❤️❤️❤️</span></div>
-            <div>已找到：<span id="foundCount">0</span> / <span id="totalTarget">12</span> 隻</div>
+            <div>計時：<span id="timer">0</span>s</div>
+            <div>進度：<span id="foundCount">0</span>/12</div>
         </div>
         
         <div id="canvas-container">
             <canvas id="gameCanvas"></canvas>
         </div>
         
-        <p class="desc" style="color: #ff4757;">⚠️ 點錯地方會扣血唷！血量扣完就失敗了！</p>
+        <p class="desc" style="color: #ff4757; font-weight: bold; margin-top: 15px;">⚠️ 點錯地方會扣血唷！</p>
         <button id="submitBtn" onclick="submitGame()" disabled>提交結果</button>
     </div>
 </div>
 
 <script>
-    // --- 遊戲核心設定 (你需要修改這裡) ---
-    // 目標數量
+    // --- 遊戲核心設定 ---
     const TOTAL_TARGETS = 12; 
-    // 玩家初始血量
     let playerHealth = 3; 
-    // 目標坐標區域 (相對於圖片的像素坐標，需要手動測量)
-    // 格式: { x: X坐標, y: Y坐標, radius: 點擊有效的半徑(像素) }
     const targetAreas = [
-        { x: 429, y: 283, radius: 40 }, // 目標 1 (例如：左邊喇叭旁)
-        { x: 300, y: 223, radius: 15 }, // 目標 2
-        { x: 259, y: 198, radius: 12 }, // 目標 3
-        { x: 182, y: 200, radius: 15 }, // 目標 4
-        { x: 48, y: 148, radius: 15 }, // 目標 5
-        { x: 176, y: 154, radius: 14 }, // 目標 6
-        { x: 166, y: 102, radius: 10 }, // 目標 7
-        { x: 248, y: 100, radius: 10 }, // 目標 8
-        { x: 355, y: 142, radius: 10 }, // 目標 9
-        { x: 383, y: 101, radius: 10 }, // 目標 10
-        { x: 425, y: 102, radius: 10 }, // 目標 11
-        { x: 442, y: 141, radius: 15 }, // 目標 12
-        // 如果你有更多目標，請繼續添加...
+        { x: 429, y: 283, radius: 40 }, { x: 300, y: 223, radius: 15 },
+        { x: 259, y: 198, radius: 12 }, { x: 182, y: 200, radius: 15 },
+        { x: 48, y: 148, radius: 15 }, { x: 176, y: 154, radius: 14 },
+        { x: 166, y: 102, radius: 10 }, { x: 248, y: 100, radius: 10 },
+        { x: 355, y: 142, radius: 10 }, { x: 383, y: 101, radius: 10 },
+        { x: 425, y: 102, radius: 10 }, { x: 442, y: 141, radius: 15 }
     ];
     
-    // 你的 GAS 應用程式網址
     const scriptURL = 'https://script.google.com/macros/s/AKfycbwUFAeQJo8i8eBr8Jgq1d-UypxOZhqX9NWcXKL1iuQZINWpGB-6Tb1KJLRCuvZEUKd3/exec';
-    // 你的圖片網址
-    const imgUrl = 'game.jpg'; // 請確保檔名正確
+    const imgUrl = 'game.jpg'; 
 
     // --- 遊戲狀態變數 ---
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const img = new Image();
-    let foundTargets = []; // 記錄已點擊的目標索引
+    let foundTargets = []; 
     let isGameOver = false;
 
-    // --- 初始化圖片 ---
+    // --- 計時器變數 ---
+    let startTime;
+    let timerInterval;
+    let finalSeconds = 0;
+
     img.src = imgUrl;
     img.onload = () => {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
-        document.getElementById('totalTarget').innerText = TOTAL_TARGETS;
     };
 
-    // --- 取得點擊位置並判斷 ---
+    function startTimer() {
+        startTime = Date.now();
+        timerInterval = setInterval(() => {
+            const now = Date.now();
+            finalSeconds = Math.floor((now - startTime) / 1000);
+            document.getElementById('timer').innerText = finalSeconds;
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+    }
+
     canvas.addEventListener('click', handleCanvasClick);
     canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault(); // 防止滾動
-        const touch = e.touches[0];
-        handleCanvasClick(touch);
+        e.preventDefault();
+        handleCanvasClick(e.touches[0]);
     }, {passive: false});
 
     function handleCanvasClick(e) {
         if (isGameOver) return;
-
         const rect = canvas.getBoundingClientRect();
-        const clientX = e.clientX || e.pageX;
-        const clientY = e.clientY || e.pageY;
-
-        // 計算相對於圖片坐標
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
-        const clickX = (clientX - rect.left) * scaleX;
-        const clickY = (clientY - rect.top) * scaleY;
+        const clickX = (e.clientX - rect.left) * scaleX;
+        const clickY = (e.clientY - rect.top) * scaleY;
 
         let hit = false;
-        // 判斷是否擊中目標
         for (let i = 0; i < targetAreas.length; i++) {
             const target = targetAreas[i];
             const dist = Math.sqrt((clickX - target.x)**2 + (clickY - target.y)**2);
-            
             if (dist <= target.radius) {
                 if (!foundTargets.includes(i)) {
-                    // 擊中新目標
                     foundTargets.push(i);
                     drawFoundMarker(target.x, target.y);
                     updateFoundCount();
                     hit = true;
-                    // 如果需要，可以在這裡播放音效
                     break;
                 } else {
-                    // 點到已經找到的目標
                     alert("這個已經找過囉！");
                     return; 
                 }
             }
         }
-
         if (!hit) {
-            // 點錯了，扣血
             deductHealth();
-            // 如果需要，可以畫一個叉叉標記點錯的位置
             drawMissMarker(clickX, clickY);
         }
     }
 
-    // 在畫布上標記點錯的位置
     function drawMissMarker(x, y) {
         ctx.beginPath();
         ctx.arc(x, y, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = 'rgba(255, 71, 87, 0.5)'; // 紅色半透明圓
+        ctx.fillStyle = 'rgba(255, 71, 87, 0.7)';
         ctx.fill();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = 'white';
-        ctx.stroke();
-        setTimeout(() => { // 短暫顯示後清除標記
-            ctx.drawImage(img, 0, 0); // 重新繪製底圖
-            foundTargets.forEach(idx => drawFoundMarker(targetAreas[idx].x, targetAreas[idx].y)); // 重新繪製找到的標記
-        }, 500);
+        setTimeout(() => {
+            ctx.drawImage(img, 0, 0);
+            foundTargets.forEach(idx => drawFoundMarker(targetAreas[idx].x, targetAreas[idx].y));
+        }, 400);
     }
 
-    // --- 遊戲邏輯函數 ---
     function startGame() {
         const name = document.getElementById('username').value;
-        if(!name) { alert("請輸入帳號！"); return; }
-        
+        const nick = document.getElementById('nickname').value;
+        if(!name || !nick) { alert("請填寫帳號與暱稱唷！"); return; }
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('game-section').style.display = 'block';
         document.getElementById('game-stats').style.display = 'flex';
+        startTimer();
     }
 
     function deductHealth() {
         playerHealth--;
-        let heartStr = '';
-        for(let i=0; i<3; i++) {
-            heartStr += (i < playerHealth) ? '❤️' : '🖤';
-        }
+        let heartStr = '❤️'.repeat(playerHealth) + '🖤'.repeat(3 - playerHealth);
         document.getElementById('health').innerText = heartStr;
-
         if (playerHealth === 0) {
             isGameOver = true;
+            stopTimer();
             alert("⚠️ 挑戰失敗！血量扣完囉。");
             document.getElementById('submitBtn').innerText = "挑戰失敗";
-            document.getElementById('submitBtn').disabled = true;
         }
     }
 
@@ -192,7 +172,8 @@
         document.getElementById('foundCount').innerText = foundTargets.length;
         if (foundTargets.length === TOTAL_TARGETS) {
             isGameOver = true;
-            alert("🎉 恭喜！你找齊所有哈特貓了。可以提交結果囉！");
+            stopTimer();
+            alert("🎉 恭喜找齊！總共花了 " + finalSeconds + " 秒。");
             document.getElementById('submitBtn').disabled = false;
         }
     }
@@ -200,28 +181,22 @@
     function drawFoundMarker(x, y) {
         ctx.beginPath();
         ctx.arc(x, y, 20, 0, 2 * Math.PI);
-        ctx.fillStyle = 'rgba(76, 175, 80, 0.5)'; // 綠色半透明圓
-        ctx.fill();
-        ctx.lineWidth = 3;
         ctx.strokeStyle = '#4CAF50';
+        ctx.lineWidth = 3;
         ctx.stroke();
     }
 
-    // --- 提交資料 ---
     function submitGame() {
-        if (foundTargets.length < TOTAL_TARGETS || isGameOver === false) { alert("還沒找齊不能提交唷！"); return; }
-        
         const name = document.getElementById('username').value;
         const nickname = document.getElementById('nickname').value;
         const submitBtn = document.getElementById('submitBtn');
-        
-        submitBtn.disabled = true; // 防止重複提交
+        submitBtn.disabled = true;
         submitBtn.innerText = "提交中...";
 
         const data = {
             name: name,
-            phone: nickname, // 拿暱稱存入電話欄位
-            answer: '血量制挑戰成功' // 傳送狀態
+            phone: nickname,
+            answer: "挑戰成功 (耗時: " + finalSeconds + " 秒)"
         };
 
         fetch(scriptURL, {
@@ -232,14 +207,12 @@
             body: JSON.stringify(data)
         })
         .then(() => {
-            alert("提交成功！\n感謝 " + nickname + " 參與活動，資料已記錄。");
-            submitBtn.innerText = "提交成功";
+            alert("提交成功！\n" + nickname + " 辛苦了！");
+            submitBtn.innerText = "已提交";
         })
         .catch(error => {
-            console.error('Error!', error.message);
-            alert("提交失敗，請檢查網路連線。");
+            alert("提交失敗，請檢查網路。");
             submitBtn.disabled = false;
-            submitBtn.innerText = "重新提交";
         });
     }
 </script>
